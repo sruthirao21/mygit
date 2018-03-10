@@ -19,3 +19,7 @@
           msg: 
            - "group delete {{item}}"
        with_items: "{{group_delete_name}}"
+
+     - name: adding an additional step to check if  jenkins pulls the new changes from GIT
+       debug:
+          msg: New changes pulled from GIT to your jenkins job 
