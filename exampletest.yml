@@ -1,0 +1,25 @@
+---
+- name: Remove Group in Federated Ldap in all appliances
+  hosts: localhost
+  connection: local
+  pre_tasks:
+    -  name: Ensure group name is provided
+       fail:
+          msg: Group name is not provided - please provide group name to variable group_delete_name
+       when: not group_delete_name is  defined
+
+    - name: Set dn for group to be deleted - {{group_delete_name}}
+      set_fact:
+         group_dn: "cn={{item}},ou=CSPGROUPS,o=att,c=us"
+      with_items: "{{group_delete_name}}"
+
+  post_tasks:
+     - name: print pdadmin staetements
+       debug:
+          msg: 
+           - "group delete {{item}}"
+       with_items: "{{group_delete_name}}"
+
+     - name: adding an additional step to check if  jenkins pulls the new changes from GIT
+       debug:
+          msg: New changes pulled from GIT to your jenkins job 
